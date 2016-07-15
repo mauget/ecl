@@ -1,0 +1,817 @@
+============================================================
+  Avocet 8051-Family Linker. Version 2.25, Serial #00000  
+============================================================
+
+Date:         8/08/90 14:28:14
+Image File:   testeng.hex
+Symbol File:  (none)
+
+Options:      -PS(DATASEG,23H)
+              -PS(IDATASEG,80H)
+              -PUTSEG(XDATASEG,0000H)
+              -OR(DATASEG,STACKSEG)
+              -SC(IDATASEG,IDATA)
+              -ML(CODESEG,FFFFH)
+              -ML(DATASEG,50H)
+              -ML(IDATASEG,7FH)
+              -ML(XDATASEG,FFFFH)
+              -SP
+              -SM
+
+Startup Addr: Unspecified
+
+
+
+
+=================
+  INPUT FILES  
+=================
+
+            Input File Name              L    Date & Time         Version
+---------------------------------------- - -----------------  ---------------
+testeng.obj                                 8/08/90 14:28:12                 
+\englib\mengine.obj                         8/08/90 13:10:59                 
+\englib\msvc.obj                            8/01/90 11:05:23                 
+\englib\mintrins.obj                        8/01/90 11:05:08                 
+\comlib\iiclib.lib                       *                                   
+\comlib\monlib.lib                       *                                   
+\comlib\marclib.lib                      *                                   
+\comlib\pasliba.lib                      *                                   
+
+
+
+
+
+
+===================================
+  ALPHABETICAL LIST OF SEGMENTS  
+===================================
+
+    Segment      Class   Start  End   Length  Align  Other Attributes
+--------------- -------- -----  ----  ------  -----  --------------------
+BIT             BIT       0000  0000   0000   BIT    
+CODE            CODE      0000  0000   0000   BYTE   
+CODESEG         CODE      002e  28a6   2879   BYTE   
+DATA            DATA      0000  0000   0000   BYTE   
+DATASEG         DATA      0023  0042   0020   BYTE   FIXED
+IDATA           IDATA     0000  0000   0000   BYTE   
+IDATASEG        IDATA     0080  0080   0000   BYTE   FIXED
+REG0            DATA      0000  0007   0008   BYTE   ABSOLUTE,OVERLAID
+STACKSEG        DATA      0043  0052   0010   BYTE   
+VECT0           CODE      0000  0002   0003   BYTE   FIXED
+VECT35          CODE      0023  0025   0003   BYTE   FIXED
+VECT43          CODE      002b  002d   0003   BYTE   FIXED
+XDATA           XDATA     0000  0000   0000   BYTE   
+XDATASEG        XDATA     0000  213e   213f   BYTE   FIXED
+
+
+
+
+
+==================================
+  SYMBOLS BY CLASS AND ADDRESS  
+==================================
+
+ Class             Symbol Name            Value      Module       Segment
+------- -------------------------------- ------- --------------- ----------
+CODE    _ENGINEDISABLE                   018EH   MENGINE         CODESEG   
+CODE    _ENGINEENABLE                    01A5H   MENGINE         CODESEG   
+CODE    _ENGINEQUERY                     01B2H   MENGINE         CODESEG   
+CODE    _ENGINELOADBYTE                  01BEH   MENGINE         CODESEG   
+CODE    _ENGINESETLOADADDR               0203H   MENGINE         CODESEG   
+CODE    _REPORT_ERROR                    0214H   MENGINE         CODESEG   
+CODE    _GETVARIABLEINDEX                0304H   MENGINE         CODESEG   
+CODE    _GETVARIABLE                     037FH   MENGINE         CODESEG   
+CODE    _STOREVARIABLE                   03B9H   MENGINE         CODESEG   
+CODE    _PUSH                            03F9H   MENGINE         CODESEG   
+CODE    _POP                             0448H   MENGINE         CODESEG   
+CODE    _FETCH                           049AH   MENGINE         CODESEG   
+CODE    _OPWORD1                         04B2H   MENGINE         CODESEG   
+CODE    _OPBYTE1                         04F5H   MENGINE         CODESEG   
+CODE    _OPBYTE2                         051CH   MENGINE         CODESEG   
+CODE    _DOGROUP1                        0543H   MENGINE         CODESEG   
+CODE    _DOGROUP2                        0805H   MENGINE         CODESEG   
+CODE    _DOGROUP3                        099AH   MENGINE         CODESEG   
+CODE    _DOGROUP4                        0A1CH   MENGINE         CODESEG   
+CODE    _DOGROUP5                        0B56H   MENGINE         CODESEG   
+CODE    _DOGROUP6                        0C0BH   MENGINE         CODESEG   
+CODE    _DOGROUP7                        0E7CH   MENGINE         CODESEG   
+CODE    _ICYCLE                          116FH   MENGINE         CODESEG   
+CODE    _ENGINE                          12DBH   MENGINE         CODESEG   
+CODE    _INITENGINE                      1343H   MENGINE         CODESEG   
+CODE    _PERFORMSVC                      13F7H   MSVC            CODESEG   
+CODE    _POPSTR                          1494H   MINTRINS        CODESEG   
+CODE    _SVC_DEBUGS                      155AH   MINTRINS        CODESEG   
+CODE    _SVC_DEBUGW                      1575H   MINTRINS        CODESEG   
+CODE    _SVC_DEBUGCR                     1598H   MINTRINS        CODESEG   
+CODE    _SVC_PI                          159CH   MINTRINS        CODESEG   
+CODE    _INITIIC                         15ACH   INITIIC         CODESEG   
+CODE    _XPNTCLR                         160FH   CROSSPNT        CODESEG   
+CODE    _XPNTSET                         1645H   CROSSPNT        CODESEG   
+CODE    _XPNTALLCLR                      167DH   CROSSPNT        CODESEG   
+CODE    _SWTOM552                        16CAH   CROSSPNT        CODESEG   
+CODE    _SWTOI552                        16E9H   CROSSPNT        CODESEG   
+CODE    _WPCF8574                        1708H   PCF8574         CODESEG   
+CODE    _RPCF8574                        1728H   PCF8574         CODESEG   
+CODE    _ISAA1064                        1759H   SAA1064         CODESEG   
+CODE    _WSAA1064                        180CH   SAA1064         CODESEG   
+CODE    _RSAA1064                        198EH   SAA1064         CODESEG   
+CODE    _INITIIC552                      19D6H   IIC552          CODESEG   
+CODE    _GETBYTE                         1CE8H   DLOAD           CODESEG   
+CODE    _GETWORD                         1D39H   DLOAD           CODESEG   
+CODE    _DLOAD                           1D50H   DLOAD           CODESEG   
+CODE    _DELAY                           1EADH   DELAY           CODESEG   
+CODE    _EXIT                            1EC6H   EXIT            CODESEG   
+CODE    _NEWLINE                         1EC9H   NEWLINE         CODESEG   
+CODE    _VAL                             1ED8H   VAL             CODESEG   
+CODE    _DEVICE                          1F39H   DEVICE          CODESEG   
+CODE    _DUMP                            1F3EH   DUMP            CODESEG   
+CODE    _GETCHAR                         206DH   GETCHAR         CODESEG   
+CODE    _PRTHEX                          20C5H   PRTHEX          CODESEG   
+CODE    _PRTHEXI                         2114H   PRTHEXI         CODESEG   
+CODE    _PRTHEXW                         2161H   PRTHEXW         CODESEG   
+CODE    _PUTCHAR                         2173H   PUTCHAR         CODESEG   
+CODE    _CRCCHECK                        21CBH   CRCCHECK        CODESEG   
+CODE    _LEN                             223AH   LEN             CODESEG   
+CODE    _PEEKAREA                        2259H   PEEKAREA        CODESEG   
+CODE    _POKEX                           229BH   POKEX           CODESEG   
+CODE    _PRTMSGNL                        22ADH   PRTMGNL         CODESEG   
+CODE    _PRTMSG                          22EAH   PRTMSG          CODESEG   
+CODE    _PRTSTRING                       2319H   PRTSTR          CODESEG   
+CODE    _INITSERIALINT                   2346H   SERIALBF        CODESEG   
+CODE    _TBUFFULL                        2475H   SERIALBF        CODESEG   
+CODE    _WRITEBUF                        24B8H   SERIALBF        CODESEG   
+CODE    _CHKSERIALBF                     2508H   SERIALBF        CODESEG   
+CODE    _READBUF                         2534H   SERIALBF        CODESEG   
+CODE    _SIGNW                           2575H   SIGNW           CODESEG   
+CODE    _ASCP                            2743H   ASCP            CODESEG   
+CODE    _CRCGEN                          2763H   CRCGEN          CODESEG   
+CODE    _PEEKC                           27C3H   PEEKC           CODESEG   
+CODE    _PEEKD                           27D6H   PEEKD           CODESEG   
+CODE    _PEEKX                           27E0H   PEEKX           CODESEG   
+CODE    _INITSERIAL                      27F2H   SERIAL          CODESEG   
+CODE    _INITSERM3                       2806H   SERIAL          CODESEG   
+CODE    _INSERIAL                        281AH   SERIAL          CODESEG   
+CODE    _OUTSERIAL                       2824H   SERIAL          CODESEG   
+CODE    _CHKSERIAL                       282EH   SERIAL          CODESEG   
+CODE    _CLRSERIAL                       283AH   SERIAL          CODESEG   
+CODE    MULQQ                            283DH   MLA             CODESEG   
+CODE    DIVQQ                            2853H   DVA             CODESEG   
+CODE    MODQQ                            2858H   DVA             CODESEG   
+
+DATA    _OV0                             0023H   TESTENG         DATASEG   
+DATA    _OV1                             002AH   TESTENG         DATASEG   
+DATA    _OV2                             0031H   TESTENG         DATASEG   
+DATA    _OV3                             0038H   TESTENG         DATASEG   
+DATA    _DEVIO                           003FH   DEVICE          DATASEG   
+DATA    __PRTHEXI                        0040H   PRTHEXI         DATASEG   
+DATA    _CRC                             0041H   CRCGEN          DATASEG   
+
+XDATA   _READMODCHAR                     *UNDEF* GETCHAR                   
+XDATA   _RC                              0000H   TESTENG         XDATASEG  
+XDATA   _I                               0001H   TESTENG         XDATASEG  
+XDATA   _L                               0002H   TESTENG         XDATASEG  
+XDATA   _HALTFLAG                        0004H   MENGINE         XDATASEG  
+XDATA   _SP                              0005H   MENGINE         XDATASEG  
+XDATA   _XCLASS                          0007H   MENGINE         XDATASEG  
+XDATA   _XADDR                           0008H   MENGINE         XDATASEG  
+XDATA   _XVALUE                          000AH   MENGINE         XDATASEG  
+XDATA   _CODERAM                         000BH   MENGINE         XDATASEG  
+XDATA   _IC                              100BH   MENGINE         XDATASEG  
+XDATA   _AR                              100DH   MENGINE         XDATASEG  
+XDATA   _ENABLED                         100FH   MENGINE         XDATASEG  
+XDATA   _LOADINDEX                       1010H   MENGINE         XDATASEG  
+XDATA   _CONFIGLOADED                    1012H   MENGINE         XDATASEG  
+XDATA   _CONFIGSIZE                      1013H   MENGINE         XDATASEG  
+XDATA   _CONFIGADDR                      1015H   MENGINE         XDATASEG  
+XDATA   __ENGINEDISABLE                  1017H   MENGINE         XDATASEG  
+XDATA   __ENGINEENABLE                   1018H   MENGINE         XDATASEG  
+XDATA   __ENGINEQUERY                    1019H   MENGINE         XDATASEG  
+XDATA   __ENGINELOADBYTE                 101AH   MENGINE         XDATASEG  
+XDATA   __ENGINESETLOADADDR              101CH   MENGINE         XDATASEG  
+XDATA   __REPORT_ERROR                   101FH   MENGINE         XDATASEG  
+XDATA   __GETVARIABLEINDEX               1048H   MENGINE         XDATASEG  
+XDATA   __GETVARIABLE                    104CH   MENGINE         XDATASEG  
+XDATA   __STOREVARIABLE                  1050H   MENGINE         XDATASEG  
+XDATA   __PUSH                           1054H   MENGINE         XDATASEG  
+XDATA   __POP                            1056H   MENGINE         XDATASEG  
+XDATA   __FETCH                          1058H   MENGINE         XDATASEG  
+XDATA   __OPWORD1                        1059H   MENGINE         XDATASEG  
+XDATA   __OPBYTE1                        105BH   MENGINE         XDATASEG  
+XDATA   __OPBYTE2                        105DH   MENGINE         XDATASEG  
+XDATA   __DOGROUP1                       105FH   MENGINE         XDATASEG  
+XDATA   __DOGROUP2                       1067H   MENGINE         XDATASEG  
+XDATA   __DOGROUP3                       106BH   MENGINE         XDATASEG  
+XDATA   __DOGROUP4                       106FH   MENGINE         XDATASEG  
+XDATA   __DOGROUP5                       1071H   MENGINE         XDATASEG  
+XDATA   __DOGROUP6                       1075H   MENGINE         XDATASEG  
+XDATA   __DOGROUP7                       107EH   MENGINE         XDATASEG  
+XDATA   __ICYCLE                         1087H   MENGINE         XDATASEG  
+XDATA   __ENGINE                         1089H   MENGINE         XDATASEG  
+XDATA   __INITENGINE                     1090H   MENGINE         XDATASEG  
+XDATA   __PERFORMSVC                     1093H   MSVC            XDATASEG  
+XDATA   __POPSTR                         1099H   MINTRINS        XDATASEG  
+XDATA   __SVC_DEBUGS                     109FH   MINTRINS        XDATASEG  
+XDATA   __SVC_DEBUGW                     10D1H   MINTRINS        XDATASEG  
+XDATA   __SVC_DEBUGCR                    10D3H   MINTRINS        XDATASEG  
+XDATA   __SVC_PI                         10D3H   MINTRINS        XDATASEG  
+XDATA   _MARCLEDS                        10D3H   INITIIC         XDATASEG  
+XDATA   __INITIIC                        10D7H   INITIIC         XDATASEG  
+XDATA   __XPNTCLR                        10D7H   CROSSPNT        XDATASEG  
+XDATA   __XPNTSET                        10D9H   CROSSPNT        XDATASEG  
+XDATA   __XPNTALLCLR                     10DBH   CROSSPNT        XDATASEG  
+XDATA   __SWTOI552                       10DCH   CROSSPNT        XDATASEG  
+XDATA   __SWTOM552                       10DCH   CROSSPNT        XDATASEG  
+XDATA   __WPCF8574                       10DCH   PCF8574         XDATASEG  
+XDATA   __RPCF8574                       10DEH   PCF8574         XDATASEG  
+XDATA   __ISAA1064                       10E0H   SAA1064         XDATASEG  
+XDATA   __WSAA1064                       10E4H   SAA1064         XDATASEG  
+XDATA   __RSAA1064                       10E9H   SAA1064         XDATASEG  
+XDATA   _MT                              10EEH   IIC552          XDATASEG  
+XDATA   _MR                              10F4H   IIC552          XDATASEG  
+XDATA   _ST                              10FAH   IIC552          XDATASEG  
+XDATA   _SR                              1100H   IIC552          XDATASEG  
+XDATA   _SLAVE_ADDR                      1106H   IIC552          XDATASEG  
+XDATA   _IICRETRYCOUNT                   1107H   IIC552          XDATASEG  
+XDATA   _IICRETURNCODE                   1108H   IIC552          XDATASEG  
+XDATA   __INITIIC552                     1109H   IIC552          XDATASEG  
+XDATA   _PROGSIZE                        110AH   DLOAD           XDATASEG  
+XDATA   __DLOAD                          110CH   DLOAD           XDATASEG  
+XDATA   _DEBUGSW                         1116H   DEVICE          XDATASEG  
+XDATA   __EXIT                           1116H   EXIT            XDATASEG  
+XDATA   __NEWLINE                        1116H   NEWLINE         XDATASEG  
+XDATA   _DEVIOSV                         1117H   DEVICE          XDATASEG  
+XDATA   __CRCCHECK                       1118H   CRCCHECK        XDATASEG  
+XDATA   _TRANSBUF                        111FH   SERIALBF        XDATASEG  
+XDATA   _RECBUF                          191FH   SERIALBF        XDATASEG  
+XDATA   _TREADPTR                        211FH   SERIALBF        XDATASEG  
+XDATA   _TWRITEPTR                       2121H   SERIALBF        XDATASEG  
+XDATA   _RREADPTR                        2123H   SERIALBF        XDATASEG  
+XDATA   _RWRITEPTR                       2125H   SERIALBF        XDATASEG  
+XDATA   _EMPTYFLAG                       2127H   SERIALBF        XDATASEG  
+XDATA   __TBUFFULL                       2128H   SERIALBF        XDATASEG  
+XDATA   __WRITEBUF                       2129H   SERIALBF        XDATASEG  
+XDATA   __CHKSERIALBF                    212AH   SERIALBF        XDATASEG  
+XDATA   __READBUF                        212BH   SERIALBF        XDATASEG  
+XDATA   __SIGNW                          212CH   SIGNW           XDATASEG  
+
+NUMBER  _STACKRAM                        A000H   MENGINE                   
+
+
+
+=====================================
+  MODULES, ALPHABETICALLY BY NAME  
+=====================================
+
+Module ASCP:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:50:48
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2715H  2734H  0020H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module CRCCHECK:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:22:20
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      219DH  220BH  006FH
+	XDATASEG        XRAM     1118H  111EH  0007H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module CRCGEN:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:51:27
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2735H  2794H  0060H
+	DATASEG         RAM      001EH  001FH  0002H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module CROSSPNT:
+	File:    \comlib\iiclib.lib
+	Date:    7/25/90 15:11:48
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      15E1H  16D9H  00F9H
+	XDATASEG        XRAM     10D7H  10DBH  0005H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module DELAY:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:51:46
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1E7FH  1E97H  0019H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module DEVICE:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:59:16
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1F0BH  1F0FH  0005H
+	DATASEG         RAM      001CH  001CH  0001H
+	XDATASEG        XRAM     1116H  1117H  0002H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module DLOAD:
+	File:    \comlib\monlib.lib
+	Date:    8/08/90 14:26:37
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1CBAH  1E7EH  01C5H
+	XDATASEG        XRAM     110AH  1115H  000CH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module DUMP:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:09:32
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1F10H  203EH  012FH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module DVA:
+	File:    \comlib\pasliba.lib
+	Date:    10/27/88 18:14:08
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2825H  2878H  0054H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module EXIT:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:52:00
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1E98H  1E9AH  0003H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module GETCHAR:
+	File:    \comlib\marclib.lib
+	Date:    8/06/90 17:35:24
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      203FH  2096H  0058H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module IIC552:
+	File:    \comlib\iiclib.lib
+	Date:    7/24/90 05:36:11
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      19A8H  1CB9H  0312H
+	XDATASEG        XRAM     10EEH  1109H  001CH
+	VECT43          ROM      0000H  0002H  0003H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module INITIIC:
+	File:    \comlib\iiclib.lib
+	Date:    7/18/90 11:27:30
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      157EH  15E0H  0063H
+	XDATASEG        XRAM     10D3H  10D6H  0004H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module LEN:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:26:59
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      220CH  222AH  001FH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module MENGINE:
+	File:    \englib\mengine.obj
+	Date:    8/08/90 13:10:59
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      0160H  13C8H  1269H
+	XDATASEG        XRAM     0004H  1092H  108FH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module MINTRINS:
+	File:    \englib\mintrins.obj
+	Date:    8/01/90 11:05:08
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1466H  157DH  0118H
+	XDATASEG        XRAM     1099H  10D2H  003AH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module MLA:
+	File:    \comlib\pasliba.lib
+	Date:    10/27/88 18:14:06
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      280FH  2824H  0016H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module MSVC:
+	File:    \englib\msvc.obj
+	Date:    8/01/90 11:05:23
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      13C9H  1465H  009DH
+	XDATASEG        XRAM     1093H  1098H  0006H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module NEWLINE:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:53:32
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1E9BH  1EA9H  000FH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PCF8574:
+	File:    \comlib\iiclib.lib
+	Date:    7/23/90 06:14:40
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      16DAH  172AH  0051H
+	XDATASEG        XRAM     10DCH  10DFH  0004H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PEEKAREA:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:27:58
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      222BH  226CH  0042H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PEEKC:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:00:13
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2795H  27A7H  0013H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PEEKD:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:00:32
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      27A8H  27B1H  000AH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PEEKX:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:01:21
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      27B2H  27C3H  0012H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module POKEX:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:30:07
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      226DH  227EH  0012H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PRTHEX:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:13:30
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2097H  20E5H  004FH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PRTHEXI:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:14:04
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      20E6H  2132H  004DH
+	DATASEG         RAM      001DH  001DH  0001H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PRTHEXW:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:14:22
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2133H  2144H  0012H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PRTMGNL:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:31:26
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      227FH  22BBH  003DH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PRTMSG:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:31:44
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      22BCH  22EAH  002FH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PRTSTR:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:32:03
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      22EBH  2317H  002DH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module PUTCHAR:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:15:58
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2145H  219CH  0058H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module SAA1064:
+	File:    \comlib\iiclib.lib
+	Date:    7/23/90 06:18:14
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      172BH  19A7H  027DH
+	XDATASEG        XRAM     10E0H  10EDH  000EH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module SERIAL:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:03:01
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      27C4H  280EH  004BH
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module SERIALBF:
+	File:    \comlib\marclib.lib
+	Date:    8/07/90 12:57:52
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2318H  2546H  022FH
+	XDATASEG        XRAM     111FH  212BH  100DH
+	VECT35          ROM      0000H  0002H  0003H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module SIGNW:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 16:36:29
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      2547H  2714H  01CEH
+	XDATASEG        XRAM     212CH  213EH  0013H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module TESTENG:
+	File:    testeng.obj
+	Date:    8/08/90 14:28:12
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      0000H  015FH  0160H
+	DATASEG         RAM      0000H  001BH  001CH
+	STACKSEG        RAM      0000H  000FH  0010H
+	XDATASEG        XRAM     0000H  0003H  0004H
+	VECT0           ROM      0000H  0002H  0003H
+	REG0            RAM      0000H  0007H  0008H
+
+
+Module VAL:
+	File:    \comlib\marclib.lib
+	Date:    7/29/90 15:57:57
+
+	    Segment      Space   Start   End   Length
+	--------------- -------  -----  -----  ------
+	CODESEG         ROM      1EAAH  1F0AH  0061H
+	REG0            RAM      0000H  0007H  0008H
+
+
+
+
+
+================
+  MEMORY MAP  
+================
+
+ Space    Start     End    Length        Segment          Module
+-------  -------  -------  ------    ---------------  ---------------
+ROM      0000H    0002H        3H    VECT0            TESTENG        
+ROM      0003H    0022H       20H    -gap                            
+ROM      0023H    0025H        3H    VECT35           SERIALBF       
+ROM      0026H    002AH        5H    -gap                            
+ROM      002BH    002DH        3H    VECT43           IIC552         
+ROM      002EH    018DH      160H    CODESEG          TESTENG        
+ROM      018EH    13F6H     1269H    CODESEG          MENGINE        
+ROM      13F7H    1493H       9DH    CODESEG          MSVC           
+ROM      1494H    15ABH      118H    CODESEG          MINTRINS       
+ROM      15ACH    160EH       63H    CODESEG          INITIIC        
+ROM      160FH    1707H       F9H    CODESEG          CROSSPNT       
+ROM      1708H    1758H       51H    CODESEG          PCF8574        
+ROM      1759H    19D5H      27DH    CODESEG          SAA1064        
+ROM      19D6H    1CE7H      312H    CODESEG          IIC552         
+ROM      1CE8H    1EACH      1C5H    CODESEG          DLOAD          
+ROM      1EADH    1EC5H       19H    CODESEG          DELAY          
+ROM      1EC6H    1EC8H        3H    CODESEG          EXIT           
+ROM      1EC9H    1ED7H        FH    CODESEG          NEWLINE        
+ROM      1ED8H    1F38H       61H    CODESEG          VAL            
+ROM      1F39H    1F3DH        5H    CODESEG          DEVICE         
+ROM      1F3EH    206CH      12FH    CODESEG          DUMP           
+ROM      206DH    20C4H       58H    CODESEG          GETCHAR        
+ROM      20C5H    2113H       4FH    CODESEG          PRTHEX         
+ROM      2114H    2160H       4DH    CODESEG          PRTHEXI        
+ROM      2161H    2172H       12H    CODESEG          PRTHEXW        
+ROM      2173H    21CAH       58H    CODESEG          PUTCHAR        
+ROM      21CBH    2239H       6FH    CODESEG          CRCCHECK       
+ROM      223AH    2258H       1FH    CODESEG          LEN            
+ROM      2259H    229AH       42H    CODESEG          PEEKAREA       
+ROM      229BH    22ACH       12H    CODESEG          POKEX          
+ROM      22ADH    22E9H       3DH    CODESEG          PRTMGNL        
+ROM      22EAH    2318H       2FH    CODESEG          PRTMSG         
+ROM      2319H    2345H       2DH    CODESEG          PRTSTR         
+ROM      2346H    2574H      22FH    CODESEG          SERIALBF       
+ROM      2575H    2742H      1CEH    CODESEG          SIGNW          
+ROM      2743H    2762H       20H    CODESEG          ASCP           
+ROM      2763H    27C2H       60H    CODESEG          CRCGEN         
+ROM      27C3H    27D5H       13H    CODESEG          PEEKC          
+ROM      27D6H    27DFH        AH    CODESEG          PEEKD          
+ROM      27E0H    27F1H       12H    CODESEG          PEEKX          
+ROM      27F2H    283CH       4BH    CODESEG          SERIAL         
+ROM      283DH    2852H       16H    CODESEG          MLA            
+ROM      2853H    28A6H       54H    CODESEG          DVA            
+ROM      28A7H    FFFFH     D759H    -unallocated                    
+
+RAM        00H      07H        8H    REG0             TESTENG        
+RAM        00H      07H        8H   *REG0             MENGINE        
+RAM        00H      07H        8H   *REG0             MSVC           
+RAM        00H      07H        8H   *REG0             MINTRINS       
+RAM        00H      07H        8H   *REG0             INITIIC        
+RAM        00H      07H        8H   *REG0             CROSSPNT       
+RAM        00H      07H        8H   *REG0             PCF8574        
+RAM        00H      07H        8H   *REG0             SAA1064        
+RAM        00H      07H        8H   *REG0             IIC552         
+RAM        00H      07H        8H   *REG0             DLOAD          
+RAM        00H      07H        8H   *REG0             DELAY          
+RAM        00H      07H        8H   *REG0             EXIT           
+RAM        00H      07H        8H   *REG0             NEWLINE        
+RAM        00H      07H        8H   *REG0             VAL            
+RAM        00H      07H        8H   *REG0             DEVICE         
+RAM        00H      07H        8H   *REG0             DUMP           
+RAM        00H      07H        8H   *REG0             GETCHAR        
+RAM        00H      07H        8H   *REG0             PRTHEX         
+RAM        00H      07H        8H   *REG0             PRTHEXI        
+RAM        00H      07H        8H   *REG0             PRTHEXW        
+RAM        00H      07H        8H   *REG0             PUTCHAR        
+RAM        00H      07H        8H   *REG0             CRCCHECK       
+RAM        00H      07H        8H   *REG0             LEN            
+RAM        00H      07H        8H   *REG0             PEEKAREA       
+RAM        00H      07H        8H   *REG0             POKEX          
+RAM        00H      07H        8H   *REG0             PRTMGNL        
+RAM        00H      07H        8H   *REG0             PRTMSG         
+RAM        00H      07H        8H   *REG0             PRTSTR         
+RAM        00H      07H        8H   *REG0             SERIALBF       
+RAM        00H      07H        8H   *REG0             SIGNW          
+RAM        00H      07H        8H   *REG0             ASCP           
+RAM        00H      07H        8H   *REG0             CRCGEN         
+RAM        00H      07H        8H   *REG0             PEEKC          
+RAM        00H      07H        8H   *REG0             PEEKD          
+RAM        00H      07H        8H   *REG0             PEEKX          
+RAM        00H      07H        8H   *REG0             SERIAL         
+RAM        00H      07H        8H   *REG0             MLA            
+RAM        00H      07H        8H   *REG0             DVA            
+RAM        08H      22H       1BH    -gap                            
+RAM        23H      3EH       1CH    DATASEG          TESTENG        
+RAM        3FH      3FH        1H    DATASEG          DEVICE         
+RAM        40H      40H        1H    DATASEG          PRTHEXI        
+RAM        41H      42H        2H    DATASEG          CRCGEN         
+RAM        43H      52H       10H    STACKSEG         TESTENG        
+RAM        53H      FFH       ADH    -unallocated                    
+
+XRAM     0000H    0003H        4H    XDATASEG         TESTENG        
+XRAM     0004H    1092H     108FH    XDATASEG         MENGINE        
+XRAM     1093H    1098H        6H    XDATASEG         MSVC           
+XRAM     1099H    10D2H       3AH    XDATASEG         MINTRINS       
+XRAM     10D3H    10D6H        4H    XDATASEG         INITIIC        
+XRAM     10D7H    10DBH        5H    XDATASEG         CROSSPNT       
+XRAM     10DCH    10DFH        4H    XDATASEG         PCF8574        
+XRAM     10E0H    10EDH        EH    XDATASEG         SAA1064        
+XRAM     10EEH    1109H       1CH    XDATASEG         IIC552         
+XRAM     110AH    1115H        CH    XDATASEG         DLOAD          
+XRAM     1116H    1117H        2H    XDATASEG         DEVICE         
+XRAM     1118H    111EH        7H    XDATASEG         CRCCHECK       
+XRAM     111FH    212BH     100DH    XDATASEG         SERIALBF       
+XRAM     212CH    213EH       13H    XDATASEG         SIGNW          
+XRAM     213FH    FFFFH     DEC1H    -unallocated                    
+
+
+
+
+==========================
+  UNALLOCATED SEGMENTS  
+==========================
+
+    Segment       Class     Space     Reason Not Allocated
+---------------  --------  --------  ------------------------
+IDATASEG         IDATA     RAM       Zero Length
+CODE             CODE      ROM       Zero Length
+DATA             DATA      RAM       Zero Length
+BIT              BIT       RAM       Zero Length
+IDATA            IDATA     RAM       Zero Length
+XDATA            XDATA     XRAM      Zero Length
+
+
+
+==========================
+  UNRESOLVED EXTERNALS  
+==========================
+
+	_READMODCHAR (In module GETCHAR)
+	_WRITEMODCHAR (In module PUTCHAR)
+	_IN562BFB (In module GETCHAR)
+	_IN562BFA (In module GETCHAR)
+	__READMODCHAR (In module GETCHAR)
+	__WRITEMODCHAR (In module PUTCHAR)
+	_OUT562BFB (In module PUTCHAR)
+	_OUT562BFA (In module PUTCHAR)
+	__IN562BFB (In module GETCHAR)
+	__IN562BFA (In module GETCHAR)
+	__OUT562BFB (In module PUTCHAR)
+	__OUT562BFA (In module PUTCHAR)

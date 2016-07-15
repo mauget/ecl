@@ -1,0 +1,8 @@
+model=512
+number=1
+rom=27512
+word=8
+output=com3
+baud=9600
+starting=x0
+

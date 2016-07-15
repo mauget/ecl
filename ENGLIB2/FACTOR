@@ -1,0 +1,38 @@
+
+ Config  FactorialProgram;
+
+   procedure PrintPi;
+     begin
+       DebugS('PI x 10**4 = '); DebugW(Pi) ; DebugCR
+     end;
+
+   function factorial   (x : integer) : integer;
+     begin
+       if x <= 1 then
+         factorial := 1
+       else
+         factorial := factorial(x - 1) * x
+     end;
+
+   CLASS A
+     const
+       sep = '---------------------';
+       START = 1; LIMIT = 7;
+     var x : integer;
+     begin
+       DebugS('Let''s test recursion and looping'); DebugCR;
+       DebugS(sep); DebugCR;
+       for x := START to LIMIT do
+         begin
+           DebugW(x);
+           DebugS(' factorial = ');
+           DebugW(factorial(x));
+           DebugCR; DebugS(sep); DebugCR
+         end;
+       DebugS('Now let''s test an intrinsic function: pi'); DebugCR;
+       PrintPi
+     end
+
+ end.
+
+

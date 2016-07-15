@@ -1,0 +1,14 @@
+ Config  TestOfRepeat;
+   var x;
+
+   DEFAULT
+     var x;
+     begin
+       x := 10;
+       while x >= -10 do begin
+        Writeln(x);
+        x := x-1;
+       end;
+     end
+ end.
+

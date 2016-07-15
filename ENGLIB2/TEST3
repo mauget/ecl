@@ -1,0 +1,18 @@
+
+ Config  TestOfCase;
+   var x;
+
+   DEFAULT
+     begin
+       x := 2;
+       case x of
+         -1: debugw(-1);
+         -2: debugw(-2);
+         1,2,3: debugw(2);
+         4: debugw(4)
+         else
+           writeln(x)
+       end;
+     end
+ end.
+

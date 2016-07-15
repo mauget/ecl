@@ -1,0 +1,132 @@
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 1
+
+
+1       
+2       PROGRAM TestEngMod;
+3       
+4       
+5       {$I 'asciicon.INC'}
+6       {$L-}
+62      {$I 'CONST.INC'}
+63      {$L-}
+167     {$I 'VAR.INC'}
+168     {$E-}
+169     {$L-}
+358     {$E+}
+360     {$I 'OVERLAY.INC'}
+361     {$L-}
+385     {$I 'SERIAL.INC'}
+386     {$L-}
+423     {$I 'TESTENG.H'}
+424     {*---------------------------*}
+425     {* External Declares         *}
+426     {*---------------------------*}
+427     PROCEDURE Device(arg:BYTE)                                 [STATIC ov0  ]; EXTERNAL;
+428     FUNCTION  Dload(target:Word; dev:BYTE; VARX len:WORD):BYTE [STATIC XDATA]; EXTERNAL;
+429     PROCEDURE Dump(area:BYTE; adr:WORD; lines:BYTE)            [STATIC ov3  ]; EXTERNAL;
+430     FUNCTION  Engine (Class : t_class; Adr : t_addr;  Value : t_value) : byte  [STATIC XDATA]; EXTERNAL;
+        *** ERROR IN 430: Undefined Identifier ***
+        *** ERROR IN 430: Undefined Identifier ***
+        *** ERROR IN 430: Undefined Identifier ***
+431     PROCEDURE Exit                                             [STATIC XDATA]; EXTERNAL;
+432     FUNCTION  GetChar:BYTE                                     [STATIC ov1  ]; EXTERNAL;
+433     PROCEDURE InitEngine                                       [STATIC XDATA]; EXTERNAL;
+434     PROCEDURE InitIIC                                          [STATIC XDATA]; EXTERNAL;
+435     PROCEDURE InitSerialInt(baud : BYTE)                       [STATIC ov0  ]; EXTERNAL;
+436     PROCEDURE Newline                                          [STATIC XDATA]; EXTERNAL;
+437     PROCEDURE PrtHex(arg: BYTE)                                [STATIC ov2  ]; EXTERNAL;
+438     PROCEDURE PrtHexW(arg: WORD)                               [STATIC ov3  ]; EXTERNAL;
+439     PROCEDURE PrtMsg(VARC str:ARRAY[0] OF BYTE)                [STATIC ov2  ]; EXTERNAL;
+440     PROCEDURE PrtMsgNL(VARC str:ARRAY[0] OF BYTE)              [STATIC ov2  ]; EXTERNAL;
+441     PROCEDURE SwToM552                                         [STATIC XDATA]; EXTERNAL;
+442     PROCEDURE XpntAllClr                                       [STATIC XDATA]; EXTERNAL;
+444        var xdata
+445            rc :  byte;
+446            i  :  byte;
+447            l : WORD;
+448            configaddr : EXTERNAL WORD;
+449     {--------------------------------------------------------------------------}
+450     { Main Program                                                             }
+451     {--------------------------------------------------------------------------}
+452     Begin
+453     
+454       InitSerialInt(B9600);
+455       device(CONBF);
+456       InitIIC;
+457       XpntAllClr;
+458       SwToM552;
+459       prtmsgnl('start test engine');
+460       InitEngine;
+
+
+
+
+
+
+
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 2
+
+
+461       prtmsgnl('down load a file');
+462       rc := dload(configaddr);
+        *** ERROR IN 462: Too Few Parameters ***
+463       prtmsg('rc = ');
+464       prthex(rc);
+465       newline;
+466       prtmsg('len = ');
+467       prthexw(l);
+468       newline;
+469     
+470       dump(EXT,configaddr,10);
+471       device(CONBF);
+472     
+473       prtmsgnl('start');
+474       prtmsgnl('press key');
+475       i := getchar;
+476     
+477       for i := 1 to 1    do begin
+478         rc := engine("A",1234,56);
+479       end; {endfor}
+480     
+481       device(CONBF);
+482       prtmsgnl('stop!');
+483     
+484     
+485     { prtmsg('engine rc = ');    }
+486     { prthex(rc);                }
+487     { newline;                   }
+488       exit;
+489     
+490     
+491     END.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

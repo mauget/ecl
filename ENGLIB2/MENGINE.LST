@@ -1,0 +1,396 @@
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 1
+
+
+1       {                                                                              }
+2       {                                                                              }
+3       {                                                                              }
+4       {   The MARC Engine is an interpreter for the MARC Language.  The engine       }
+5       {   resides within MARC.  This PS/2 version is used on a PS/2 for debugging    }
+6       {   and simulation.  This version is the source code that is ported to the     }
+7       {   AVPAS Pascal that MARC uses.                                               }
+8       {                                                                              }
+9       {   A program written in MARC Language is downloaded into the MARC unit.       }
+10      {   When a MARC event occurs, the engine is called by the MARC supervisor      }
+11      {   to handle the event, passing indentifying parameters needed for the        }
+12      {   MARC Language program.  The MARC Language program communicates with the    }
+13      {   MARC unit through intrinsic functions called by SVC.                       }
+14      {                                                                              }
+15      {                             Lou Mauget 01/08/90                              }
+16      {                                                                              }
+17      {                                                                              }
+18      {  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
+19      {                                                                              }
+20      {          The tuple mnemonics and their meanings - alpabetized  by mnemonic   }
+21      {          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD   }
+22      {                                                                              }
+23      {  ADD     80              pop1 + pop0 -> push                                 }
+24      {  AND     81              pop1 & pop0 -> push                                 }
+25      {  DIV     82              pop1 / pop0 -> push                                 }
+26      {  MOD     83              pop1 % pop0 -> push                                 }
+27      {  MUL     84              pop1 * pop0 -> push                                 }
+28      {  OR      85              pop1 | pop0 -> push                                 }
+29      {  SUB     86              pop1 - pop0 -> push                                 }
+30      {  XOR     87              pop1 ^ pop0 -> push                                 }
+31      {  CMPEQ   88              pop1 == pop0 -> push                                }
+32      {  CMPGE   89              pop1 >= pop0 -> push                                }
+33      {  CMPGT   8A              pop1 >  pop0 -> push                                }
+34      {  CMPLE   8B              pop1 <= pop0 -> push                                }
+35      {  CMPLT   8C              pop1 <  pop0 -> push                                }
+36      {  CMPNE   8D              pop1 != pop0 -> push                                }
+37      {  DEC     A0              (level,rvalue)--                                    }
+38      {  INC     A1              (level,rvalue)++                                    }
+39      {  NEG     A2              -stk0                                               }
+40      {  NOT     A3              ~stk0                                               }
+41      {  CALL    B0  addr        push nsi, addr -> ic                                }
+42      {  SVC     B1  byte        ic -> push, svctab[value] -> ic                     }
+43      {  JMP     C0  addr        addr -> ic                                          }
+44      {  JZ      C1  addr        pop0, if zero addr -> ic                            }
+45      {  CJE     C2  addr        pop1 - pop0, if 0: addr -> ic                       }
+46      {  CJZ     C2  addr        pop1 - pop0, if 0: addr -> ic                       }
+47      {  CJNE    C3  addr        pop1 - pop0, if !0: addr -> ic                      }
+48      {  CJNZ    C3  addr        pop1 - pop0, if !0: addr -> ic                      }
+49      {  RET     D0              pop0 -> ic                                          }
+50      {  RETF    D1  lvl,rvalue  pop0 -> ic,  (level,rvalue) -> push                 }
+51      {  DUPE    E0              pop0 -> push, push                                  }
+52      {  PURGE   E1              pop0                                                }
+53      {  PUSHI   E2  value       value -> push                                       }
+54      {  PUSHIB  E3  byte        byte  -> push                                       }
+55      {  PUSHR   E4  lvl,rvalue  (level,rvalue) -> push                              }
+56      {  STORE   E5  lvl,rvalue  pop0 -> (level,rvalue)                              }
+
+
+
+
+
+
+
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 2
+
+
+57      {  PUSHS   E6  string      push(strrev(string)), push(strlen)                  }
+58      {  INIT    F0  byte        Push display of (byte) words onto stack             }
+59      {  ENTER   F1  byte, byte, byte    argcount, level, autolen                    }
+60      {  LEAVE   F2              Purge current activation record                     }
+61      {                                                                              }
+62      {  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
+63      {                                                                              }
+64      {          The tuple mnemonics and their meanings - grouped by action          }
+65      {          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD          }
+66      {                                                                              }
+67      {  DDDDDDDD Arithmetic - binary DDDDDDDD                                       }
+68      {                                                                              }
+69      {  ADD                     pop1 + pop0 -> push                                 }
+70      {  AND                     pop1 & pop0 -> push                                 }
+71      {  DIV                     pop1 / pop0 -> push                                 }
+72      {  MOD                     pop1 % pop0 -> push                                 }
+73      {  MUL                     pop1 * pop0 -> push                                 }
+74      {  OR                      pop1 | pop0 -> push                                 }
+75      {  SUB                     pop1 - pop0 -> push                                 }
+76      {  XOR                     pop1 ^ pop0 -> push                                 }
+77      {                                                                              }
+78      {  DDDDDDDD Relational test - binary DDDDDDDD                                  }
+79      {                                                                              }
+80      {  CMPEQ                   pop1 == pop0 -> push                                }
+81      {  CMPGE                   pop1 >= pop0 -> push                                }
+82      {  CMPGT                   pop1 >  pop0 -> push                                }
+83      {  CMPLE                   pop1 <= pop0 -> push                                }
+84      {  CMPLT                   pop1 <  pop0 -> push                                }
+85      {  CMPNE                   pop1 != pop0 -> push                                }
+86      {                                                                              }
+87      {  DDDDDDDD Arithmetic - unary DDDDDDDD                                        }
+88      {                                                                              }
+89      {  DEC                     (level,rvalue)--                                    }
+90      {  INC                     (level,rvalue)++                                    }
+91      {  NEG                     -stk0                                               }
+92      {  NOT                     ~stk0                                               }
+93      {                                                                              }
+94      {  DDDDDDDD Subroutine calling DDDDDDDD                                        }
+95      {                                                                              }
+96      {  CALL    addr            push ic, addr -> ic                                 }
+97      {  SVC     value           ic -> push, svctab[value] -> ic                     }
+98      {                                                                              }
+99      {  DDDDDDDD Return operations DDDDDDDD                                         }
+100     {                                                                              }
+101     {  RET                     pop0 -> ic                                          }
+102     {  RETF    level,rvalue    pop0 -> ic,  (level,rvalue) -> push                 }
+103     {                                                                              }
+104     {  DDDDDDDD Jump operations DDDDDDDD                                           }
+105     {                                                                              }
+106     {  JMP     addr            addr -> ic                                          }
+107     {  JZ      addr            pop0, if zero addr -> ic                            }
+108     {  CJE     addr            pop0, if 0: addr -> ic                              }
+109     {  CJZ     addr            pop0, if 0: addr -> ic                              }
+110     {  CJNE    addr            pop0, if !0: addr -> ic                             }
+111     {  CJNZ    addr            pop0, if !0: addr -> ic                             }
+112     {                                                                              }
+
+
+
+
+
+
+
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 3
+
+
+113     {  DDDDDDDD Stack manipulation DDDDDDDD                                        }
+114     {                                                                              }
+115     {  DUPE                    pop0 -> push, push                                  }
+116     {  PURGE                   pop0                                                }
+117     {  PUSHI   value           value -> push                                       }
+118     {  PUSHR   level,rvalue    (level,rvalue) -> push                              }
+119     {  STORE   level,rvalue    pop0 -> (level,rvalue)                              }
+120     {  PUSHS   E6  string      push(strrev(string)), push(strlen)                  }
+121     {                                                                              }
+122     {                                                                              }
+123     {  DDDDDDDD Activation housekeeping DDDDDDDD                                   }
+124     {                                                                              }
+125     {  ENTER   pc,level,len    Build AR with parms:pc, auto data:len               }
+126     {  INIT    value           Set display. Simulate PROC(class, addr, val) call:  }
+127     {  LEAVE                   Restore previous AR                                 }
+128     {                                                                              }
+129     {                                                                              }
+130     {  DDDDDDDD Psuedo operations DDDDDDDD                                         }
+131     {                                                                              }
+132     {  EQU     value           Psuedo-op                                           }
+133     {                                                                              }
+134     {                                                                              }
+135     {                                                                              }
+136     {  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
+137     {                                                                              }
+138     {          The tuple mnemonics and their opcodes - grouped by action           }
+139     {          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD           }
+140     {                                                                              }
+141     {  DDDDDDDD Arithmetic - binary DDDDDDDD                                       }
+142     {                                                                              }
+143     {  ADD     80              pop1 + pop0 -> push                                 }
+144     {  AND     81              pop1 & pop0 -> push                                 }
+145     {  DIV     82              pop1 / pop0 -> push                                 }
+146     {  MOD     83              pop1 % pop0 -> push                                 }
+147     {  MUL     84              pop1 * pop0 -> push                                 }
+148     {  OR      85              pop1 | pop0 -> push                                 }
+149     {  SUB     86              pop1 - pop0 -> push                                 }
+150     {  XOR     87              pop1 ^ pop0 -> push                                 }
+151     {                                                                              }
+152     {  DDDDDDDD Relational test - binary DDDDDDDD                                  }
+153     {                                                                              }
+154     {  CMPEQ   88              pop1 == pop0 -> push                                }
+155     {  CMPGE   89              pop1 >= pop0 -> push                                }
+156     {  CMPGT   8A              pop1 >  pop0 -> push                                }
+157     {  CMPLE   8B              pop1 <= pop0 -> push                                }
+158     {  CMPLT   8C              pop1 <  pop0 -> push                                }
+159     {  CMPNE   8D              pop1 != pop0 -> push                                }
+160     {                                                                              }
+161     {  DDDDDDDD Arithmetic - unary DDDDDDDD                                        }
+162     {                                                                              }
+163     {  DEC     A0              (level,rvalue)--                                    }
+164     {  INC     A1              (level,rvalue)++                                    }
+165     {  NEG     A2              -stk0                                               }
+166     {  NOT     A3              ~stk0                                               }
+167     {                                                                              }
+168     {  DDDDDDDD Subroutine calling DDDDDDDD                                        }
+
+
+
+
+
+
+
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 4
+
+
+169     {                                                                              }
+170     {  CALL    B0  addr        push nsi, addr -> ic                                }
+171     {  SVC     B1  byte        ic -> push, svctab[value] -> ic                     }
+172     {                                                                              }
+173     {  DDDDDDDD Jump operations DDDDDDDD                                           }
+174     {                                                                              }
+175     {  JMP     C0  addr        addr -> ic                                          }
+176     {  JZ      C1  addr        pop0, if zero addr -> ic                            }
+177     {  CJE     C2  addr        pop1 - pop0, if 0: addr -> ic                       }
+178     {  CJZ     C2  addr        pop1 - pop0, if 0: addr -> ic                       }
+179     {  CJNE    C3  addr        pop1 - pop0, if !0: addr -> ic                      }
+180     {  CJNZ    C3  addr        pop1 - pop0, if !0: addr -> ic                      }
+181     {                                                                              }
+182     {  DDDDDDDD Return operations DDDDDDDD                                         }
+183     {                                                                              }
+184     {  RET     D0              pop0 -> ic                                          }
+185     {  RETF    D1  lvl,rvalue  pop0 -> ic,  (level,rvalue) -> push                 }
+186     {                                                                              }
+187     {  DDDDDDDD Stack manipulation DDDDDDDD                                        }
+188     {                                                                              }
+189     {  DUPE    E0              pop0 -> push, push                                  }
+190     {  PURGE   E1              pop0                                                }
+191     {  PUSHI   E2  value       value -> push                                       }
+192     {  PUSHIB  E3  byte        byte  -> push                                       }
+193     {  PUSHR   E4  lvl,rvalue  (level,rvalue) -> push                              }
+194     {  STORE   E5  lvl,rvalue  pop0 -> (level,rvalue)                              }
+195     {  PUSHS   E6  string      push(strrev(string)), push(strlen)                  }
+196     {                                                                              }
+197     {                                                                              }
+198     {  DDDDDDDD Activation housekeeping DDDDDDDD                                   }
+199     {                                                                              }
+200     {  INIT    F0  byte                Allocate (byte) display entries             }
+201     {  ENTER   F1  byte, byte, byte    Build AR: Argcount, level, autolen          }
+202     {  LEAVE   F2                      Pop current AR                              }
+203     {                                                                              }
+204     {                                                                              }
+205     {  DDDDDDDD Psuedo operations DDDDDDDD                                         }
+206     {                                                                              }
+207     {  EQU                     value           Psuedo-op                           }
+208     {                                                                              }
+209     {                                                                              }
+210     {                                                                              }
+211     {  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM}
+212     {                                                                              }
+213     {          The tuple mnemonics and their opcodes - sorted by opcode            }
+214     {          DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD           }
+215     {                                                                              }
+216     {  ADD     80              pop1 + pop0 -> push                                 }
+217     {  AND     81              pop1 & pop0 -> push                                 }
+218     {  DIV     82              pop1 / pop0 -> push                                 }
+219     {  MOD     83              pop1 % pop0 -> push                                 }
+220     {  MUL     84              pop1 * pop0 -> push                                 }
+221     {  OR      85              pop1 | pop0 -> push                                 }
+222     {  SUB     86              pop1 - pop0 -> push                                 }
+223     {  XOR     87              pop1 ^ pop0 -> push                                 }
+224     {  CMPEQ   88              pop1 == pop0 -> push                                }
+
+
+
+
+
+
+
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 5
+
+
+225     {  CMPGE   89              pop1 >= pop0 -> push                                }
+226     {  CMPGT   8A              pop1 >  pop0 -> push                                }
+227     {  CMPLE   8B              pop1 <= pop0 -> push                                }
+228     {  CMPLT   8C              pop1 <  pop0 -> push                                }
+229     {  CMPNE   8D              pop1 != pop0 -> push                                }
+230     {  DEC     A0              (level,rvalue)--                                    }
+231     {  INC     A1              (level,rvalue)++                                    }
+232     {  NEG     A2              -stk0                                               }
+233     {  NOT     A3              ~stk0                                               }
+234     {  CALL    B0  addr        push nsi, addr -> ic                                }
+235     {  SVC     B1  byte        ic -> push, svctab[value] -> ic                     }
+236     {  JMP     C0  addr        addr -> ic                                          }
+237     {  JZ      C1  addr        pop0, if zero addr -> ic                            }
+238     {  CJE     C2  addr        pop1 - pop0, if 0: addr -> ic                       }
+239     {  CJZ     C2  addr        pop1 - pop0, if 0: addr -> ic                       }
+240     {  CJNE    C3  addr        pop1 - pop0, if !0: addr -> ic                      }
+241     {  CJNZ    C3  addr        pop1 - pop0, if !0: addr -> ic                      }
+242     {  RET     D0              pop0 -> ic                                          }
+243     {  RETF    D1  lvl,rvalue  pop0 -> ic,  (level,rvalue) -> push                 }
+244     {  DUPE    E0              pop0 -> push, push                                  }
+245     {  PURGE   E1              pop0                                                }
+246     {  PUSHI   E2  value       value -> push                                       }
+247     {  PUSHIB  E3  byte        byte  -> push                                       }
+248     {  PUSHR   E4  lvl,rvalue  (level,rvalue) -> push                              }
+249     {  STORE   E5  lvl,rvalue  pop0 -> (level,rvalue)                              }
+250     {  PUSHS   E6  string      push(strrev(string)), push(strlen)                  }
+251     {  INIT    F0  byte        Push display of (byte) words onto stack             }
+252     {  ENTER   F1  byte, byte, byte    argcount, level, autolen                    }
+253     {  LEAVE   F2              Purge current activation record                     }
+254     {                                                                              }
+255     {                                                                              }
+256     {***********************************************************}
+257     {*                      Public stuff:                      *}
+258     {***********************************************************}
+259     
+260     Module MEngine;
+261     
+262     {$I 'CONST.INC'}
+263     {$L-}
+367     {$I 'ASCIICON.INC'}
+368     {$L-}
+424     {$I 'OVEXT.INC'}
+425     {$L-}
+447     {$I 'MENGINE.H'}
+448     {*---------------------------*}
+449     {* External Declares         *}
+450     {*---------------------------*}
+451     FUNCTION  CrcCheck(area:byte; adr,len:word): BYTE          [STATIC XDATA]; EXTERNAL;
+452     PROCEDURE Exit                                             [STATIC XDATA]; EXTERNAL;
+453     FUNCTION  Len(VARX str: zstring;index:BYTE): BYTE          [STATIC ov0  ]; EXTERNAL;
+454     PROCEDURE Newline                                          [STATIC XDATA]; EXTERNAL;
+455     PROCEDURE PerformSvc (SvcNo : byte)                        [STATIC XDATA]; EXTERNAL;
+456     PROCEDURE PrtHex(arg: BYTE)                                [STATIC ov2  ]; EXTERNAL;
+457     PROCEDURE PrtMsg(VARC str:ARRAY[0] OF BYTE)                [STATIC ov2  ]; EXTERNAL;
+458     PROCEDURE PrtMsgNL(VARC str:ARRAY[0] OF BYTE)              [STATIC ov2  ]; EXTERNAL;
+459     FUNCTION  SignW(op1:word; operator:byte; op0:word) : word  [STATIC XDATA]; EXTERNAL;
+
+
+
+
+
+
+
+AVPAS51 V3.22 OPTIMIZING PASCAL CROSS COMPILER                        PAGE 6
+
+
+461     {$I 'ENGINE.INC'}
+462     {$L-}
+521     
+522     #define debug 3
+        *** ERROR IN 522: Unexpected Character ***
+        *** ERROR IN 522: Expected = ***
+        *** ERROR IN 522: Undefined Identifier ***
+        *** ERROR IN 522: Expected ; ***
+523     #include <debug.inc>
+        *** ERROR IN 523: Unexpected Character ***
+        *** ERROR IN 523: Expected = ***
+        *** ERROR IN 523: Undefined Identifier ***
+        *** ERROR IN 523: Expected ; ***
+        *** ERROR IN 523: Expected END ***
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

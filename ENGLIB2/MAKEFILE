@@ -1,0 +1,8 @@
+FLAGS=/M /V
+.pas.tpu:
+        tpc $(FLAGS) $<
+.pas.exe:
+        tpc $(FLAGS) $<
+
+engine.exe: engine.pas uengine.tpu usvc.tpu uihex.tpu uintrins.tpu
+
